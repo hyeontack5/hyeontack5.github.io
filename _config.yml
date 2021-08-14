@@ -109,9 +109,9 @@ author:
   name             : "Hyeontack Oh" # 이름 설정 영역입니다.
   avatar           : # 프로필 이미지 경로입니다.
   # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "세상에 나보다 열심히 한새끼 없을 정도로 하자" # biography의 약칭으로, 자기소개 영역입니다.
+  bio              : "2021.08.14~ing" # biography의 약칭으로, 자기소개 영역입니다.
   location         : "Yongin, Korea" # 지역을 나타냅니다.
-  # email            : "sksgusxor@gamil.com" # email 주소 입니다. link에서 설정해줄 수도 있습니다.
+  email            : # "sksgusxor@gamil.com" # email 주소 입니다. link에서 설정해줄 수도 있습니다.
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
