@@ -12,21 +12,26 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "default" # 블로그 테마를 설정값입니다.
+# "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "en-US"
-title                    : "Site Title"
+locale                   : "en-US" # 블로그 언어 설정 값입니다. 한국어 -> "ko-KR" 입니다.
+title                    : "🧑🏻‍💻 백엔드 개발자 오현택입니다." # 사이트 탭에 보여지는 제목 설정값입니다.
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Your Name"
+subtitle                 : # 메인 page 제목 하단의 소제목을 설정값입니다.
+# site tagline that appears below site title in masthead
+name                     : "Hyeontack Oh" # 화면 footer에 표시되는 값입니다.
 description              : "An amazing website."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : "https://hyeontack5.github.io" # 현재 블로그 URL 입니다.
+# the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "https://github.com/hyeontack5/hyeontack5.github.io" # Github repo URL 입니다.
+# GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
-masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
+masthead_title           : "끊임없이 질문하고, 소통하며 문제를 해결하는 개발자" # 사이트 메인 page 제목 설정값입니다.
+# overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
@@ -101,15 +106,16 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  name             : "Hyeontack Oh" # 이름 설정 영역입니다.
+  avatar           : # 프로필 이미지 경로입니다.
+  # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  bio              : "세상에 나보다 열심히 한새끼 없을 정도로 하자" # biography의 약칭으로, 자기소개 영역입니다.
+  location         : "Yongin, Korea" # 지역을 나타냅니다.
+  # email            : "sksgusxor@gamil.com" # email 주소 입니다. link에서 설정해줄 수도 있습니다.
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "mailto:sksgusxor@gamil.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -119,9 +125,9 @@ author:
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url: "https://facebook.com/"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+    - label: "GitHub" # 표시되는 이름입니다.
+      icon: "fab fa-fw fa-github" # fab fa-fw fa-{SNS NAME}으로 입력합니다.
+      url: "https://github.com/hyeontack5" # URL을 입력란 입니다.
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
@@ -129,6 +135,9 @@ author:
 # Site Footer
 footer:
   links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:sksgusxor@gamil.com"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       # url:
@@ -137,7 +146,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
+      url: "https://github.com/hyeontack5" # URL을 입력란 입니다.
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
