@@ -10,8 +10,8 @@
 -->
 <html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
   <head>
-    {% include head.html %}
-    {% include head/custom.html %}
+    {% include head.html %} <!--inclue 디렉토리에 있는 head.html을 가져다 쓰겠다는 뜻입니다.-->
+    {% include head/custom.html %} <!--inclue 디렉토리에 있는 head/custom.html을 가져다 쓰겠다는 뜻입니다.-->
   </head>
 
   <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
