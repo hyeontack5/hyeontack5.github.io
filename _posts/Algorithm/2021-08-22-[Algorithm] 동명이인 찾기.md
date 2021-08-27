@@ -17,7 +17,7 @@ toc_icon: "bookmark"
 
 ```
 def find_same_name(n):
-  result = set()
+  result = set()  # 결과를 저장할 빈 집합
   for i in range(0, len(n)-1):
     for j in range(i+1, len(n)):
       if n[i] == n[j]:
