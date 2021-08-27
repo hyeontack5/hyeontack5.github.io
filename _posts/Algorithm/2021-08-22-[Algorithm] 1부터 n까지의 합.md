@@ -51,8 +51,11 @@ def sum(n):
     result = result + (n * n)
     return result
 
-print(sum(10)) 
+print(sum(10))
+print(sum(100)) 
 ```
+
+계산 복잡도는 O(n)
 
 ## 방법 2
 ```
@@ -60,4 +63,7 @@ def sum(n):
     return n * (n + 1) * (2 * n + 1) / 6
 
 print(sum(10)) 
+print(sum(100)) 
 ```
+
+계산 복잡도는 O(1)
