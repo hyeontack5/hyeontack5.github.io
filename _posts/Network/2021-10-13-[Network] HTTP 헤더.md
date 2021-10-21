@@ -398,7 +398,16 @@ Connection: Keep-Alive
   - 그렇기 때문에 오래된 버전의 HTTP에서 지속적 접속을 하고 싶은 경우에는 Connection 헤더 필드에 `Keep-Alive`라고 지정해야 함
 
 ```
-// 리퀘스트GET / HTTP/1.1Connection: Kepp-Alive// 리스폰스HTTP/1.1 200 OK...Keep-Alive: timeout=10, max=500Connection: Keep-Alive...
+// 리퀘스트
+GET / HTTP/1.1
+Connection: Kepp-Alive
+
+// 리스폰스
+HTTP/1.1 200 OK
+...
+Keep-Alive: timeout=10, max=500
+Connection: Keep-Alive
+...
 ```
 
 - 클라가 리퀘스트를 보낸 경우, 서버에서는 Keep-Alive 헤더 필드와 Connection 헤더 필드를 붙여서 리스폰스함
@@ -409,19 +418,22 @@ Connection: Keep-Alive
 - HTTP/1.1에서는 RFC1123에 다음과 같이 날짜 포맷이 지정되어 있음
 
 ```
-Date: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMTDate: Tue, 03 Jul 12 04:40:59 GMT
+Date: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
+Date: Tue, 03 Jul 12 04:40:59 GMT
 ```
 
 - 오래된 버전의 HTTP에서는 RFC850에 정의된 다음과 같은 포맷을 사용함
 
 ```
-Date: <day-name>, <day>-<month>-<year> <hour>:<minute>:<second> GMTDate: Tue, 03-Jul-12 04:40:59 GMT
+Date: <day-name>, <day>-<month>-<year> <hour>:<minute>:<second> GMT
+Date: Tue, 03-Jul-12 04:40:59 GMT
 ```
 
 - 표준 C 라이브러리에 포함된 asctime() 함수의 출력 형식과 같음
 
 ```
-Date: <day-name>, <month> <day> <hour>:<minute>:<second> <year> GMTDate: Tue, Jul 03 04:40:59 2012
+Date: <day-name>, <month> <day> <hour>:<minute>:<second> <year> GMT
+Date: Tue, Jul 03 04:40:59 2012
 ```
 
 ## Pragma
@@ -448,7 +460,15 @@ Cache-Control: no-cachePragma: no-cache
 - 이 헤더 필드는 HTTP/1.1에 구현되어 있는 청크 전송 인코딩을 사용하고 있는 경우에 사용 가능함
 
 ```
-HTTP/1.1 200 OKDate: Tue, 03, Jul 2012 04:40:56 GMTContent-Type: text/html...Transfer-Encoding: chunkedTrailer: Expires...(메시지 바디)...0Expires: Tue, 28 Sep 2004 23:59:59 GMT
+HTTP/1.1 200 OK
+Date: Tue, 03, Jul 2012 04:40:56 GMT
+Content-Type: text/html
+...
+Transfer-Encoding: chunked
+Trailer: Expires
+...(메시지 바디)...
+0
+Expires: Tue, 28 Sep 2004 23:59:59 GMT
 ```
 
 - 이 예에서 Trailer 헤더 필드에 Expires를 지정하고 있고, 메시지 바디의 뒤(청크의 길이가 0의 뒤)에 Expires 헤더 필드가 나타나고 있음
@@ -459,7 +479,22 @@ HTTP/1.1 200 OKDate: Tue, 03, Jul 2012 04:40:56 GMTContent-Type: text/html...Tra
 - HTTP/1.1에서 전송 코딩 형식으로 청크 전송만이 정의되어있음
 
 ```
-HTTP/1.1 200 OKDate: Tue, 03, Jul 2012 04:40:56 GMTCache-Control: public, max-age=604800Content-Type: text/javascript; charset=utf-8Expires: Tue, 10 Jul 2012 04:40:56 GMTX-Frame-Options: DENYX-XSS-Protection: 1; mode=blockContent-Encoding: gzipTransfer-Encoding: chunkedConnection: keep-aliveCf0 <- 16진수(10진수로 3312)...3312bytes 정도의 chunk 데이터392 <- 16진수(10진수로 914)...914bytes 정도의 chunk 데이터0
+HTTP/1.1 200 OK
+Date: Tue, 03, Jul 2012 04:40:56 GMT
+Cache-Control: public, max-age=604800
+Content-Type: text/javascript; charset=utf-8
+Expires: Tue, 10 Jul 2012 04:40:56 GMT
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+Cf0 <- 16진수(10진수로 3312)
+...3312bytes 정도의 chunk 데이터
+392 <- 16진수(10진수로 914)
+...914bytes 정도의 chunk 데이터
+0
 ```
 
 - 이 에의 경우, Transfer-Encoding 헤더 필드로 지정한 것처럼 청크 전송 코딩이 유효한 상태고, 3312 bytes와 912 bytes의 청크 데이터로 분할되어 있음
@@ -470,7 +505,15 @@ HTTP/1.1 200 OKDate: Tue, 03, Jul 2012 04:40:56 GMTCache-Control: public, max-ag
 - 지정하는 대상이 전혀 다른 통신 프로토콜이라고 하더라도 문제 없음
 
 ```
-// 리퀘스트GET /index.htm HTTP/1.1Upgrade: TLS/1.0Connection: Upgrade// 리스폰스HTTP/1.1 101 Switching ProtocolsUpgrade: TLS/1.0, HTTP/1.1Connection: Upgrade
+// 리퀘스트
+GET /index.htm HTTP/1.1
+Upgrade: TLS/1.0
+Connection: Upgrade
+
+// 리스폰스
+HTTP/1.1 101 Switching Protocols
+Upgrade: TLS/1.0, HTTP/1.1
+Connection: Upgrade
 ```
 
 - 이 예의 경우, Upgrade 헤더 필드에 TLS/1.0가 지정되어 있음
@@ -755,7 +798,401 @@ User-Agent:Mozilla/5.0 ...
 - 로봇 엔진의 리퀘스트의 경우 로봇 엔진의 책임자 메일 주소가 부가된 것도 있음
 - 프록시 경유로 리퀘스트의 경우 프록시 서버의 이름 등이 부가된 것도 있음
 
+# 6-5. 리스폰스 헤더 필드
+
+- 서버 측으로부터 클라 측으로 송신되는 리스폰스 메시지에 적용된 헤더로 리스폰스의 부가 정보나 서버의 정보, 클라에 부가 정보 요구 등을 나타냄
+
+## Accept-Ranges
+
+```
+Accept-Ranges: bytes
+```
+
+- 서버가 리소스의 일부분만 지정해서 취득할 수 있는 Range 리퀘스트를 접수할 수 있는지 여부를 전달함
+- 지정 가능한 필드 값은 2개
+  - 수신 가능한 경우 : `bytes`
+  - 수신 불가능한 경우 : `none`
+
+## Age
+
+```
+Age: 600(단위: 초)
+```
+
+- 얼마나 오래 전에 오리진 서버에서 리스폰스가 생성되었는지를 전달함
+- 리스폰스한 서버가 캐시 서버라면, 캐시된 리스폰스가 다시 실증되었던 때부터 검증한 시간이 됨
+- 프록시가 리스폰스를 생성했다면 Age 헤더 필드는 필수
+
+## ETag
+
+```
+ETag: ...
+```
+
+- 엔티티 태그라고 불리며 일의적으로 리소스를 특정하기 위한 문자열을 전달함
+- 서버는 리소스마다 ETag 값을 할당함
+- 리소스가 갱신되면 ETag 값도 갱신할 필요가 있음
+- ETag 값의 문자에는 특별히 룰이 정해져 있지 않고 서버에 따라 다양한 ETag 값을 할당함
+- 리소스를 캐시할 때는 리소스를 일의적으로 정하고 싶은 상황이 있음
+  - ex) 한국어 버전의 브라우저를 사용해서 액세스하면 한국어의 리소스가 반환되지만 영문판 브라우저를 사용해서 액세스하면 영어의 리소스를 반환함
+  - 둘다 URI는 같지만 URI만으로는 캐시했었던 리소스를 특정하는 것은 어려움
+- 도중에 다운로드가 끊겨서 다시 하는 경우에 ETag 값을 참조해서 리소스를 특정함
+
+**강력한 ETag 값과 약한 ETag 값**
+
+- ETag에는 강한(strong) ETag 값과 약한(weak) ETag 값으로 구별되어 있음
+
+_1)_ **강한 ETag 값**
+
+- 엔티티가 아주 조금 다르더라도 반드시 값은 변화함
+
+```
+ETag: "Usagi-1234"
+```
+
+_2)_ 약한 ETag 값
+
+- 리소스가 같다는 것만을 나타냄
+- 의미가 다른 리소스로 그 차이가 있는 경우에만 ETag 값이 변화함
+- 값의 앞부분에 "W/"가 붙음
+
+```
+ETag: W/"usagi-1234"
+```
+
+## Location
+
+```
+Location: http://www....
+```
+
+- 리스폰스의 수신자에 대해서 Request-URI 이외의 리소스 액세스를 유도하는 경우에 사용
+- 기본적으로 "3xx: Redirection"리스폰스에 대해서 리다이렉트 처의 URI를 기술함
+- 대부분의 브라우저에서는 Location 헤더 필드를 포함한 리스폰스를 받으면 강제로 리다이렉트 하는 곳의 리소스에 액세스를 시도함
+
+## Proxy-Authenticate
+
+```
+Proxy-Authenticate: Basic realm="Usagidesign Auth"
+```
+
+- 프록시 서버에서의 인증 요구를 클라에 전달함
+- 클라와 서버와의 HTTP 액세스 인증과 비슷한데 다른점은 클라와 프록시 사이에서 인증이 이루어진다는 것
+- 클라와 서버의 경우 WWW-Authorization 헤더 필드와 같은 역할을 함
+
+## Retry-After
+
+```
+Retry-After: 120
+```
+
+- 클라가 일정 시간 후에 리퀘스틀르 다시 시행해야 하는지를 전달함
+- 주로 상태 코드 503 Service Unavailable 리스폰스나 3xx Redirect 리스폰스와 함께 사용됨
+- 값으로는 날짜(`<day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT` 등의 형식)이라든가 리스폰스 이후의 몇 초를 지정할 수 있음
+
+## Server
+
+```
+Server: Apache/2.2.17(Unix)
+```
+
+- 서버에 설치되어 있는 HTTP 서버의 소프트웨어를 전달함
+- 서버의 소프트웨어 명칭만이 아닌 버전이나 옵션에 대해서도 기재하는 경우 있음
+
+```
+Server: Apache/2.2.6 (Unix) PHP/5.2.5
+```
+
+## Vary
+
+```
+Vary: Accept-Language
+```
+
+- 캐시를 컨트롤하기 위해서 사용
+- 오리진 서버가 프록시 서버에 로컬 캐시를 사용한느 방법에 대해 지시를 전달함
+- 오리진 서버로부터 Vary에 지정되었던 리스폰스를 받아들인 프록시 서버는 이후 캐시된 때의 리퀘스트와 같은 Vary에 지정되어 있는 헤더 필드를 가진 리퀘스트에 대해서만 캐시를 반환할 수 있음
+- 같은 리소스에 대한 리퀘스라도 Vary에 지정되었던 헤더 필드가 다른 경우에는 오리진 서버로부터 리소스를 취득할 필요가 있음
+
+## WWW-Authenticate
+
+```
+WWW-Authenticate: Basic realm="Usagidesign Auth"
+```
+
+- HTTP 액세스 인증에 사용되는데 Request-URI에 지정했던 리소스에 적용할 수 있는 인증 스키마("Basic"  or "Digest")와 파라미터를 나타내는 challenge를 전달함
+- WWW-Authenticate 헤더 필드는 상태 코드 401 Unauthorized 리스폰스에 반드시 포함됨
+- 이 예에서 "realm"는 Request-URI에 지정된 보호되었던 리소스를 식별하기 위한 문자열
+
+# 6-6. 엔티티 헤더 필드
+
+- 리퀘스트 메시지와 리스폰스 메시지에 포함된 엔티티에 사용되는 헤더로 콘텐츠의 갱신 시간 같은 엔티티에 관한 정보를 포함함
+
+## Allow
+
+```
+Allow: GET, HEAD
+```
+
+- Request-URI에 지정된 리소스가 제공하는 메소드의 일람을 전달함
+- 서버가 받을 수 없는 메소드를 수신한 경우에는 상태 코드 405 Method Not Allowed 리스폰스와 함께 수신 가능한 메소드의 일람을 기술한 Allow 헤더 필드를 반환함
+
+## Content-Encoding
+
+```
+Content-Encoding: gzip
+```
+
+- 서버가 엔티티 바디에 대해서 실시한 콘텐츠 코딩 형식을 전달함
+- 콘텐츠 코딩은 엔티니의 정보가 누락되지 않도록 압축할 것을 지시함
+
+**4가지 콘텐츠 코딩 형식**
+
+- Gzip
+- Compress
+- Deflate
+- Identity
+
+## Content-Language
+
+```
+Content-Language: en
+```
+
+- 엔티티 바디에 사용된 자연여(한국어, 영어 등)를 전달함
+
+## Content-Length
+
+```
+Content-Length: 15000
+```
+
+- 엔티티 바디의 크기(단위: bytes)를 전달함
+- 엔티티 바디에 전송 코딩이 실시된 경우에는 Content-Length 헤더 필드를 사용해서는 안됨
+
+## Content-Location
+
+```
+Content-Location: http://www....
+```
+
+- 메시지 바디에 대응하는 URI를 전달함
+- Location 헤더 필드와 달리 Content-Location은 메시지 바디로 반환된 리소스의 URI를 나타냄
+
+## Content-MD5
+
+```
+Content-MD5: ...
+```
+
+- 메시지 바디가 변경되지 않고 도착했는지 확인하기 위해 MD5 알고리즘에 의해서 생성된 값을 전달함
+- 메시지 바디에 MD5 알고리즘을 적용해서 얻은 128비트의 바이너리 값에 Base64 인코딩을 한 결과를 필드 값에 기록함
+  - HTTP 헤더에는 바이너리 값을 기록하는 것이 불가능해서 Base64로 인코딩함
+- 유효성 확인을 위해 수신한 클라 측에서 메시지 바디에 같은 MD5 알고리즘 실행함
+  - 이렇게 해서 도출한 값과 필드 값을 비교하여 메시지 바디가 올바른지 여부를 알 수 있음
+- 이 방식에는 우발적으로콘텐츠가 변경되어 버린 사실을 알 수 있지만 악의를 가진 변조는 검출할 수 없음
+  - 그 이유는 콘텐츠를 변조하면 Content-MD5도 재계산해서 변조하는 것이 가능함
+- 클라가 수신한 단계에서는 메시지 바디도 Content-MD5 헤더 필드도 변조되어 있기 때문에 발견할 방법이 없음]
+
+## Content-Range
+
+```
+Content-Range: bytes 5001-10000/10000
+```
+
+- 범위를 지정해서 일부부만을 리퀘스트하는 Range 리퀘스트에 대해서 리스폰스를 할 때에 사용됨
+- 리스폰스로 보낸 엔티티가 어느 부분에 해당하는가를 전달함
+- 필드 값에는 현재 보내고 있는 곳을 바이트로 지정한 범위와 전체 사이즈를 기록함
+
+## Content-Type
+
+```
+Content-Type: text/html; charset=UTF-8
+```
+
+- 엔티티 바디에 포함되는 오브젝트의 미디어 타입을 전달함
+- Accept 헤더 필드와 같이, 필드 값은 "타입/서브 타입"으로 기록함
+- Charset 파라미터는 "iso-8859-1"과 "euc-kr" 등의 문자셋을 지정함
+
+## Expires
+
+````
+Expires: Web, 04 Jul 2012 08:26:05 GMT
+````
+
+- 리소스의 유효 기한 날짜를 전달함
+- 캐시 서버가 Expires 헤더 필드를 포함한 리소스를 수신한 경우 필드 값으로 지정된 날짜까지 리스폰스의 복사본을 유지하고 리퀘스트에는 캐시로 응답함
+- 지정 날짜가 지난 경우에는 리퀘스트가 온 단계에서 오리진 서버에 리소스를 얻으러 감
+- 오리진 서버가 캐시 서버에 캐시되는 것을 원하지 않을 경우에는 Date 헤더 필드의 필드 값과 같은 날짜로 해두는 것이 바람직함
+  - 다만 Cache-Control 헤더 필드에 max-age 디렉티브가 지정되어 있는 경우에는 Expires 헤더 필드보다 max-age 디렉티비의 지정이 우선이됨
+
+## Last-Modified
+
+```
+Last-Modified: Web, 23 May 2012 09:59:55 GMT
+```
+
+- 리소스가 마지막으로 갱신되었던 날짜 정보를 전달함
+- 기본적으로 Request-URI가 지정된 리소스가 갱신되었던 날짜가 되지만 CGI 등의 스크립트로 동적인 데이터를 다룰 경우에는 그 데이터의 최종 갱신 날짜가 되는 경우도 있음
+
+# 6-7. 쿠키를 위한 헤더 필드
+
+- 서버와 클라이언트 간의 상태를 관리하는 쿠키는 HTTP/1.1의 사양인 RFC2616에 포함된 것은 아니지만 웹 사이트에서 널리 사용되고 있음
+- 쿠키는 유저 식별과 상태 관리에 사용되고 있는 기능임
+- 웹 사이트가 유저의 상태를 관리하기 위해서 웹 브라우저 경유로 유저의 컴퓨터 상에 일시적으로 데이터를 기록해 두고, 다음에 그 유저가 웹 사이트에 액세스 해 왔을 때 지난번에 발행된 쿠키를 송신받을 수 있음
+- 쿠키가 호출되었을 때는 쿠기의 유효 기한과 송신지의 도메인, 경로, 프로토콜 등을 체크하는 것이 가능
+  - 적절하게 발행된 쿠키는 다른 웹 사이트와 공격자의 공격에 의해 데이터가 도난당하는 일은 없음
+
+## Set-Cookie
+
+```
+Set-Cookie: status-enable; expires=Tue, 05 Jul 2011 07:26:31 GMT; =>path=/;domain=.hack.jp;
+```
+
+- 서버가 클라에 대해서 상태 관리를 시작할 때 다양한 정보를 전달함
+
+*Set-Cookie 필드 속성*
+
+| 속성             | 설명                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| NAME=VALUE       | 쿠키에 부여된 이름과 값(필수)                                |
+| Expires=DATE     | 쿠기 유효 기한<br>(지정되지 않은 경우는 브라우저를 닫을 때까지) |
+| Path=PATH        | 쿠키 적용 대상이 되는 서버 상의 디렉토리<br>(지정하지 않은 경우는 도큐먼트와 같은 디렉토리) |
+| Domain=도메인 명 | 쿠키 적용 대상이 되는 도메인 명<br>(지정하지 않은 경우는 쿠키를 생성한 서버의 도메인) |
+| Secure           | HTTPS로 통신하고 있는 경우에만 쿠키를 송신                   |
+| HttpOnly         | 쿠키를 JavaScript(자바스크립트)에서 액세스하지 못하도록 제한 |
+
+_1)_ **Expires 속성**
+
+- 쿠키의 Expires 속성은 브라우저가 쿠키를 송출할 수 있는 유효 기한을 저정할 수 있음
+- Expires 속성을 생략한 경우에는 브라우저 세션이 유지되고 있는 동안만 유효하게 됨
+  - 이것은 통상은 브라우저 애플리케이션을 닫을 때까지
+- 한번 서버에 송출한 클라의 쿠키는 서버에서 명시적으로 삭제하는 방법은 없음
+- 유효 기한이 지났다면 쿠키를 덮어 쓰는 것으로 실질적으로 클라 측의 쿠키를 삭제하는 것이 가능
+
+_2)_ **Path 속성**
+
+- 쿠키의 path 속성은 쿠키를 송출하는 범위를 특정 디렉토리에 한정할 수 있음
+- 이 지정을 피하는 방법이 있어서 보안 효과는 기대할 수 없음
+
+_3)_ **Domain 속성**
+
+- 쿠키의 domain 속성에 의해서 지정된 도메인 명은 후방 일치가 됨
+  - ex) "example.com"로 지정했을 때 "example.com" 이외에 "www.example.com"과 "www2.example.com" 등에서도 쿠키가 송출됨
+- 명시적으로 여러 도메인에 대해서 쿠키를 송출하는 경우를 제외하고 domain 속성은 지정하지 않는 쪽이 안전함
+
+_4)_ **Secure 속성**
+
+- 웹 페이지가 HTTPS에서 열렸을 때에만 쿠키 송출을 제한히기 위해서 지정함
+
+```
+Set-Cookie: name=value; secure
+```
+
+- 위의 경우 "https://www.example.com/(HTTPS)"일 때만 쿠키 반속을 함
+  - 도메인이 같더라도 "http://www.example.com/(HTTP)"에는 쿠키 반송을 하지 않음
+- secure 속성을 생략하는 경우에는 HTTP와 HTTPS에서도 쿠키를 반송함
+
+_5)_ **HttpOnly 속성**
+
+- 자바스크립트를 경유해서 쿠키를 취득하지 못하도록 하는 쿠키의 확장 기능임
+- 크로스 사이트 스크립팅(XSS)으로부터 쿠키의 도청을 막는 것을 목적으로 함
+
+```
+Set-Cookie: name=value; HttpOnly
+```
+
+- 위의 경우, 통상 웹 페이지 내에서는 쿠키를 읽어 들이는 것은 가능하지만 HttpOnly 속성이 부여된 쿠키는 Javascript의 [document.cookie]에서는 읽어들일 수 없게됨
+  - 그렇기 때문에 XSS에서 Javascript를 이용해 쿠키를 훔칠 수 없음
+- 독자적으로 확장한 기능이지만 인터넷 익스플로러 6 SP1 이상의 브라우저를 비롯한 현재 주요한 브라우저에서는 거의 모두 대응하고 있음
+- XSS 자체를 막는 것은 아님
+
+## Cookie
+
+```
+Cookie: status=enable
+```
+
+- 클라가 HTTP의 상태 관리 지원을 원할 때 서버로부터 수신한 쿠키를 이후의 리퀘스트에 포함해서 전달함
+- 쿠키를 여러 개 수신하고 있을 때에는 쿠키를 여러 개 보내는 것도 가능
+
+# 6-8. 그 이외의 헤더 필드
+
+- HTTP 헤더 필드는 독자적으로 확장할 수 있음
+  - 그렇기 때문에 웹 서버와 브라우저의 기능에 다양한 독자적인 헤더 필드가 존재함
+
+**자주 사용되는 헤더 필드**
+
+- **X-Frame-Option**
+- **X-XSS-Protection**
+- **DNT**
+- **P3P**
+
+_1)_ **X-Frame-Option**
+
+```
+X-Frame-Option: DENY
+```
+
+- 다른 웹 사이트의 프레임에서 표시를 제어하는 HTTP 리스폰스 헤더로, 클릭 재킹(click jacking)이라는 공격을 막는 것을목적으로 함
+
+**X-Frame-Option 헤더 필드에 지정할 수 있는 값**
+
+- **DENY** : 거부
+- **SAMEORIGIN** : Top-level-browsing-context가 일치한 경우에만 허가
+
+- X-Frame-Option는 모든 웹 서버에서 설정해두는 것이 바람직함
+
+```
+<IfModule mod_headers.c>
+	Header append X-FRAME-OPTIONS"SAMEORIGIN"
+<IfModule>
+```
+
+## X-XSS-Protection
+
+```
+X-XSS-Protection: 1
+```
+
+- 크로스 사이트 스크립팅(XSS) 대책으로서 브라우저의 XSS 보호 기능을 제어하는 HTTP 리스폰스 헤더 임
+
+**X-XSS-Protection 헤더 필드에 지정할 수 있는 값**
+
+- **0** : XSS 필터를 무효로 함
+- **1** : XSS 필터를 유효로 함
+
+## DNT
+
+```
+DNT: 1
+```
+
+- Do No Track(DNT)라는 뜻이며 개인 정보 수집을 거부하는 의사를 나타내는 HTTP 리퀘스트 헤더임
+- 타깃 광고 등에 이용되는 트래킹의 거부 의사를 나타내기 위한 방법 중 하나
+
+**DNT 헤더 필드는에 지정할 수 있는 값**
+
+- **0** : 트래킹 동의
+- **1** : 트래킹 거부
+
+- DNT 헤더 필드의 기능이 유효성을 유지하기 위해서는 웹 서버에서 DNT를 지원해야 할 필요가 있음
+
+## P3P
+
+```
+P3P: CP="CAO DSP LAW CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT"
+```
+
+- 웹 사이트 상의 프라버시 정책에 P3P(The Platform for Privacy Preferences)를 사용하는 것으로, 프로그램이 읽을 수 있는 형태로 나타내기 위한 HTTP 리스폰스 헤더임
+
+**P3P 설정 순서**
+
+- **수순-1** : P3P 정책 작성
+- **수순-2** : P3P 정책 참조 파일을 작성해서 "/w3c/p3p.xml"에 배치
+- **수순-3** : P3P 정책으로부터 콤팩트 정책을 작성하고 HTTP 리스폰스 헤더에 출력
+
 # reference
 
-> [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)
+> [그림으로 배우는 HTTP & Network Basic](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=51908132)<br>
 > [MDN Web Docs-HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP)
