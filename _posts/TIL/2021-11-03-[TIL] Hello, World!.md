@@ -5,6 +5,7 @@ categories:
   - TIL
 tags:
   - TIL
+  - 점프 투 자바
 toc: true
 toc_sticky: true
 toc_label: "[TIL] Hello, World!"
