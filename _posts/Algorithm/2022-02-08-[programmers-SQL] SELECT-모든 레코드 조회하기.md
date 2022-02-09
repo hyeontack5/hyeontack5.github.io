@@ -57,8 +57,8 @@ ORDER BY ANIMAL_ID;
 - 문제에서 주어진 `ANIMAL_INS` 테이블을 지정해 가져옵니다.
 
 ## ORDER BY 구
-- 문제에서 동물 보호소에 들어온 모든 동물의 정보를 `ANIMAL_ID` 순으로 조회하라고 했기 때문에 ORDER BY 뒤에 `ANIMAL_ID`를 지정해준다.
-- `ANIMAL_ID` 뒤에 아무것도 지정해주지 않으면 Mysql 같은 경우 default가 DESC(descendant), 오름차순으로 정렬된다.
+- 문제에서 동물 보호소에 들어온 모든 동물의 정보를 `ANIMAL_ID` 순으로 조회하라고 했기 때문에 ORDER BY 뒤에 `ANIMAL_ID`를 지정해줍니다.
+- `ANIMAL_ID` 뒤에 아무것도 지정해주지 않으면 Mysql 같은 경우 default가 ASC(asendanct), 오름차순으로 정렬됩니다.
 
 # Reference
 
